@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <title>IASAS Softball 2013 Graphics Generator</title>
+		<link rel="shortcut icon" href="./img/favicon.png"/>
+
+        <link rel="stylesheet" href="css/normalize.min.css">
+        <link rel="stylesheet" href="css/flatstrap.min.css">
+        <link rel="stylesheet" href="css/main.css">	
+
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script src="js/jquery.formalize.min.js"></script>
+		<script src="js/shortcut.js"></script>
+		<script>
+			function increment_school_name(index, away_or_home) { // 0 - away, 1-home
+				if(away_or_home == 0) base_select = '#team_one_name';
+				else base_select = '#team_two_name';
+				switch(index) {
+					case 0:	
+						$(base_select).css('background-color', 'rgb(120,0,32)');
+						$(base_select + ' img').attr('src', 'img/sas_100px.png');
+						$(base_select + ' p').html('SAS');
+						$(base_select).data('index', 1);
+						break;
+					case 1:	
+						$(base_select).css('background-color', 'rgb(92, 92, 92)');
+						$(base_select + ' img').attr('src', 'img/isb_100px.png');
+						$(base_select + ' p').html('ISB');
+						$(base_select).data('index', 2);
+						break;
+					case 2:	
+						$(base_select).css('background-color', 'rgb(15, 95, 8)');
+						$(base_select + ' img').attr('src', 'img/ism_100px.png');
+						$(base_select + ' p').html('ISM');
+						$(base_select).data('index', 3);
+						break;
+					case 3:	
+						$(base_select).css('background-color', 'rgb(179, 157, 0)');
+						$(base_select + ' img').attr('src', 'img/iskl_100px.png');
+						$(base_select + ' p').html('ISKL');
+						$(base_select).data('index', 4);
+						break;
+					case 4:	
+						$(base_select).css('background-color', 'rgb(0, 77, 148)');
+						$(base_select + ' img').attr('src', 'img/jis_100px.png');
+						$(base_select + ' p').html('JIS');
+						$(base_select).data('index', 5);
+						break;
+					case 5:	
+						$(base_select).css('background-color', 'rgb(0, 53, 146)');
+						$(base_select + ' img').attr('src', 'img/tas_100px.png');
+						$(base_select + ' p').html('TAS');
+						$(base_select).data('index', 0);
+						break;
+				}
+			}
+			function increment_balls() { // increments balls; resets if >3
+				balls = parseInt($("#balls").html());
+				balls = balls + 1;
+				if(balls == 4) balls = 0;
+				$("#balls").html(balls);
+			}
+			function increment_strikes() {
+				strikes = parseInt($("#strikes").html());
+				strikes = strikes + 1;
+				if(strikes == 3) strikes = 0;
+				$("#strikes").html(strikes);
+			}
+			function increment_outs() {
+				outs = parseInt($("#outs_container").find('span').html());
+				outs = outs + 1;
+				if(outs == 4) outs = 0;
+				$("#outs_container").find('span').html(outs);
+			}
+			function reset_count() {
+				$("#balls").html("0");
+				$("#strikes").html("0");
+			}
+			function clear_bases() {
+				$('#1B').hide();
+				$('#2B').hide();
+				$('#3B').hide();
+			}
+			function increment_inning() {
+				inning_array = ['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th'];
+				index = inning_array.indexOf($("#increment_inning").parent().find('p').html());
+				$("#increment_inning").parent().find('p').html(inning_array[index+1]);
+			}
+			function decrement_inning() {
+				inning_array = ['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th'];
+				index = inning_array.indexOf($("#decrement_inning").parent().find('p').html());
+				$("#decrement_inning").parent().find('p').html(inning_array[index-1]);
+			}
+			function next_half_inning() { // reset appropriate values for next half-inning
+				clear_bases();
+				reset_count();
+				$("#outs_container").find('span').html("0");
+				$("#strikes").html("0");
+				$("#balls").html("0");
+				if($("#inning_container img").hasClass("top_half")) {
+					$("#inning_container img").removeClass("top_half")
+				} else {
+					$("#inning_container img").addClass("top_half");
+					increment_inning();
+				}
+			}
+			jQuery(document).ready(function($) {
+				$("#team_one_name").click(function() {
+					increment_school_name($('#team_one_name').data("index"), 0);
+				});				
+				$("#team_two_name").click(function() {
+					increment_school_name($('#team_two_name').data("index"), 1);
+				});
+				$(".team_score_container .decrement").click(function() { // decrement score value
+					newVal = $(this).parent().find('p').html() - 1;
+					$(this).parent().find('p').html(newVal);
+				});
+				$(".team_score_container .increment").click(function() { // increment score
+					newVal = parseInt($(this).parent().find('p').html()) + 1;
+					$(this).parent().find('p').html(newVal);
+				});				
+				$("#1B_click").click(function() { $('#1B').toggle(); });
+				$("#2B_click").click(function() { $('#2B').toggle(); });
+				$("#3B_click").click(function() { $('#3B').toggle(); });
+				
+				$("#inning_container img").click(function() { 
+					if($(this).hasClass('top_half')) $(this).removeClass('top_half');
+					else $(this).addClass('top_half');
+				});		
+				
+				
+				$("#decrement_inning").click(function() { 
+					decrement_inning();
+				});		
+				
+				$("#increment_inning").click(function() { 
+					increment_inning();
+				});		
+				
+				$("#outs_container").click(function() { 
+					increment_outs();
+				});
+				$("#balls").click(function() { 
+					increment_balls();
+				});
+				$("#strikes").click(function() { 
+					increment_strikes();
+				});
+									
+			});
+
+		
+		</script>
+
+    </head>
+    <body style='width: 1200px;'>
+		<div id='bug_container'>
+			<img src='./img/score_bug.png' style='width:1000px;position:absolute;z-index: -1;'>
+			<div id='team_one_name' class='team_name_container' style='background-color: rgb(0, 53, 146);' data-index='0'> 
+				<img id='one_img' src='img/tas_100px.png' style='margin: 8px;width: 57px;float:left;'>
+				<p id='one_name' class='name_text'>TAS</p>
+			</div>
+			<div id="team_one_score" class='team_score_container'>
+				<p>0</p>
+				<div class='decrement'></div>
+				<div class='increment'></div>
+			</div>
+			<div  id='team_two_name' class='team_name_container' style='background-color: rgb(0, 53, 146);' data-index='0'>
+				<img id='two_img' src='img/tas_100px.png' style='margin: 8px;width: 57px;float:left;'>
+				<p id='two_name' class='name_text'>TAS</p>
+			</div>
+			<div id="team_two_score" class='team_score_container'>
+				<p>0</p>
+				<div class='decrement'></div>
+				<div class='increment'></div>
+			</div>
+			<div id='bases_container' style=''>
+				<img id='1B' src='img/base.png' style='margin-left: 147px;margin-top: 63px;'>
+				<img id='2B' src='img/base.png'  style='margin-left: 85px;margin-top: 7px;'>
+				<img id='3B' src='img/base.png'  style='margin-left: 25px;margin-top: 63px;'>
+				<div id='1B_click' class='base_click' style='margin-left: 135px;margin-top: 49px;'></div>
+				<div id='2B_click' class='base_click' style='margin-left: 73px;margin-top: 0px;'></div>
+				<div id='3B_click' class='base_click' style='margin-left: 10px;margin-top: 49px;'></div>
+			</div>
+			<div id="inning_container" style="">
+				<img id='inning_arrow' src="img/inning_arrow.png" class="top_half">
+				<p style="">3rd</p>
+				<div id='decrement_inning'></div>
+				<div id='increment_inning'></div>
+			</div>	
+			<div id="outs_container" style="">
+				<p style=""><span id="out">0</span> OUT</p>
+			</div>
+			<div id="count_container" style="">
+				<p style=""><span id="balls">0</span>-<span id='strikes'>0</span></p>
+			</div>
+		</div>
+		
+		<div id='button_container' style='margin-top:10px;margin-left: 200px;'>
+			<button class='btn btn-primary' onclick='next_half_inning()'>Next Half-Inning (N)</button>
+			<button class='btn btn-success' onclick='clear_bases()'>Clear Bases (C)</button>
+			<button class='btn btn-success' onclick="reset_count()">Reset Count (R)</button>
+			<button class='btn btn-inverse' onclick='increment_balls()'>Balls (B)</button>
+			<button class='btn btn-inverse' onclick='increment_strikes()'>Strikes (S)</button>
+			<button class='btn btn-inverse' onclick='increment_outs()'>Outs (O)</button>
+		</div>
+		
+		<script>
+			jQuery(document).ready(function($) {
+				import_name_by_school('tas', '#home_team');
+				import_name_by_school('tas', '#away_team');
+
+				function import_name_by_school(three_letter_school, away_or_home) { // import .json roster file
+					temp = 'rosters/' + three_letter_school + '.json';
+					temp_name = away_or_home + ' .player .name';
+					temp_uniform = away_or_home + ' .player .uniform_number';
+					temp_position = away_or_home + ' .player .position';
+					$.ajaxSetup({async: false});					
+					$.getJSON(temp, function(json) {
+						$(temp_name).each(function(index) {
+							$(this).val(json[index].name);
+						});
+						$(temp_uniform).each(function(index) {
+							$(this).val(json[index].uniform);
+						});
+						$(temp_position).each(function(index) {
+							$(this).val(json[index].position);
+						});
+					});
+				
+				}
+				$('#away_team select').change(function() {
+					chosen_school = $(this).find(":selected").text();
+					array = ["Singapore American School", "International School of Bangkok", "International School of Manila", "International School of Kuala Lumpur", "Jarkarta International School", "Taipei American School"]
+					increment_school_name(array.indexOf(chosen_school), 0);
+					switch(chosen_school) {
+						case "Singapore American School": 
+							import_name_by_school('sas', '#away_team');
+							break;
+						case "Taipei American School": 
+							import_name_by_school('tas', '#away_team');
+							break;
+						case "International School of Bangkok": 
+							import_name_by_school('isb', '#away_team');
+							break;
+						case "International School of Manila": 
+							import_name_by_school('ism', '#away_team');
+							break;
+						case "International School of Kuala Lumpur": 
+							import_name_by_school('iskl', '#away_team');
+							break;
+						case "Jarkarta International School": 
+							import_name_by_school('jis', '#away_team');
+							break;
+					}
+				});	
+				$('#home_team select').change(function() {
+					chosen_school = $(this).find(":selected").text();
+					array = ["Singapore American School", "International School of Bangkok", "International School of Manila", "International School of Kuala Lumpur", "Jarkarta International School", "Taipei American School"]
+					increment_school_name(array.indexOf(chosen_school), 1);
+					switch(chosen_school) {
+						case "Singapore American School": 
+							import_name_by_school('sas', '#home_team');
+							break;
+						case "Taipei American School": 
+							import_name_by_school('tas', '#home_team');
+							break;
+						case "International School of Bangkok": 
+							import_name_by_school('isb', '#home_team');
+							break;
+						case "International School of Manila": 
+							import_name_by_school('ism', '#home_team');
+							break;
+						case "International School of Kuala Lumpur": 
+							import_name_by_school('iskl', '#home_team');
+							break;
+						case "Jarkarta International School": 
+							import_name_by_school('jis', '#home_team');
+							break;
+					}
+				});
+			});
+		</script>
+		
+		<form id='form' style='margin:10px;float:left'>
+			<div id='away_team' style='float:left;'>
+				<select style='width: 300px;margin-left: 50px;'>
+					<option>Taipei American School</option>
+					<option>Singapore American School</option>
+					<option>International School of Bangkok</option>
+					<option>International School of Manila</option>
+					<option>International School of Kuala Lumpur</option>
+					<option>Jarkarta International School</option>
+				</select>
+				<div class='player' id='one'>
+					<input type="radio" name="player_radio" class='radio' value="1" checked>
+					<input type="text" style='width:20px;' placeholder="#" class='uniform_number'>
+					<input type="text" style='width:20px;' placeholder="Pos"  class='position'>
+					<input type="text"  style='width:140px;' placeholder="Name"  class='name'>
+					<input type="text"  style='width:140px;' placeholder="Custom Text"  class='custom_text'>
+				</div>
+				<div class='player' id='two'>
+					<input type="radio" name="player_radio" class='radio' value="2">
+					<input type="text" style='width:20px;' placeholder="#" class='uniform_number'>
+					<input type="text" style='width:20px;' placeholder="Pos"  class='position'>
+					<input type="text"  style='width:140px;' placeholder="Name"  class='name'>
+					<input type="text"  style='width:140px;' placeholder="Custom Text"  class='custom_text'>
+				</div>
+				<div class='player' id='three'>
+					<input type="radio" name="player_radio" class='radio' value="3">
+					<input type="text" style='width:20px;' placeholder="#" class='uniform_number'>
+					<input type="text" style='width:20px;' placeholder="Pos"  class='position'>
+					<input type="text"  style='width:140px;' placeholder="Name"  class='name'>
+					<input type="text"  style='width:140px;' placeholder="Custom Text"  class='custom_text'>
+				</div>
+				<div class='player' id='four'>
+					<input type="radio" name="player_radio" class='radio' value="4">
+					<input type="text" style='width:20px;' placeholder="#" class='uniform_number'>
+					<input type="text" style='width:20px;' placeholder="Pos"  class='position'>
+					<input type="text"  style='width:140px;' placeholder="Name"  class='name'>
+					<input type="text"  style='width:140px;' placeholder="Custom Text"  class='custom_text'>
+				</div>
+				<div class='player' id='five'>
+					<input type="radio" name="player_radio" class='radio' value="5">
+					<input type="text" style='width:20px;' placeholder="#" class='uniform_number'>
+					<input type="text" style='width:20px;' placeholder="Pos"  class='position'>
+					<input type="text"  style='width:140px;' placeholder="Name"  class='name'>
+					<input type="text"  style='width:140px;' placeholder="Custom Text"  class='custom_text'>
+				</div>
+				<div class='player' id='six'>
+					<input type="radio" name="player_radio" class='radio' value="6">
+					<input type="text" style='width:20px;' placeholder="#" class='uniform_number'>
+					<input type="text" style='width:20px;' placeholder="Pos"  class='position'>
+					<input type="text"  style='width:140px;' placeholder="Name"  class='name'>
+					<input type="text"  style='width:140px;' placeholder="Custom Text"  class='custom_text'>
+				</div>
+				<div class='player' id='seven'>
+					<input type="radio" name="player_radio" class='radio' value="7">
+					<input type="text" style='width:20px;' placeholder="#" class='uniform_number'>
+					<input type="text" style='width:20px;' placeholder="Pos"  class='position'>
+					<input type="text"  style='width:140px;' placeholder="Name"  class='name'>
+					<input type="text"  style='width:140px;' placeholder="Custom Text"  class='custom_text'>
+				</div>
+				<div class='player' id='eight'>
+					<input type="radio" name="player_radio" class='radio' value="8">
+					<input type="text" style='width:20px;' placeholder="#" class='uniform_number'>
+					<input type="text" style='width:20px;' placeholder="Pos"  class='position'>
+					<input type="text"  style='width:140px;' placeholder="Name"  class='name'>
+					<input type="text"  style='width:140px;' placeholder="Custom Text"  class='custom_text'>
+				</div>
+				<div class='player' id='nine'>
+					<input type="radio" name="player_radio" class='radio' value="9">
+					<input type="text" style='width:20px;' placeholder="#" class='uniform_number'>
+					<input type="text" style='width:20px;' placeholder="Pos"  class='position'>
+					<input type="text"  style='width:140px;' placeholder="Name"  class='name'>
+					<input type="text"  style='width:140px;' placeholder="Custom Text"  class='custom_text'>
+				</div>
+				<div class='player' id='ten'>
+					<input type="radio" name="player_radio" class='radio' value="10">
+					<input type="text" style='width:20px;' placeholder="#" class='uniform_number'>
+					<input type="text" style='width:20px;' placeholder="Pos"  class='position'>
+					<input type="text"  style='width:140px;' placeholder="Name"  class='name'>
+					<input type="text"  style='width:140px;' placeholder="Custom Text"  class='custom_text'>
+				</div>
+				<div class='player' id='eleven'>
+					<input type="radio" name="player_radio" class='radio' value="11">
+					<input type="text" style='width:20px;' placeholder="#" class='uniform_number'>
+					<input type="text" style='width:20px;' placeholder="Pos"  class='position'>
+					<input type="text"  style='width:140px;' placeholder="Name"  class='name'>
+					<input type="text"  style='width:140px;' placeholder="Custom Text"  class='custom_text'>
+				</div>
+				<div class='player' id='twelve'>
+					<input type="radio" name="player_radio" class='radio' value="12">
+					<input type="text" style='width:20px;' placeholder="#" class='uniform_number'>
+					<input type="text" style='width:20px;' placeholder="Pos"  class='position'>
+					<input type="text"  style='width:140px;' placeholder="Name"  class='name'>
+					<input type="text"  style='width:140px;' placeholder="Custom Text"  class='custom_text'>
+				</div>
+			</div>
+
+			<div id='home_team' style='float:left;margin-left:20px;'>
+				<select style='width: 300px;margin-left: 50px;'>
+					<option>Taipei American School</option>
+					<option>Singapore American School</option>
+					<option>International School of Bangkok</option>
+					<option>International School of Manila</option>
+					<option>International School of Kuala Lumpur</option>
+					<option>Jarkarta International School</option>
+				</select>
+				<div class='player' id='one'>
+					<input type="radio" name="player_radio" class='radio' value="13" checked>
+					<input type="text" style='width:20px;' placeholder="#" class='uniform_number'>
+					<input type="text" style='width:20px;' placeholder="Pos"  class='position'>
+					<input type="text"  style='width:140px;' placeholder="Name"  class='name'>
+					<input type="text"  style='width:140px;' placeholder="Custom Text"  class='custom_text'>
+				</div>
+				<div class='player' id='two'>
+					<input type="radio" name="player_radio" class='radio' value="14">
+					<input type="text" style='width:20px;' placeholder="#" class='uniform_number'>
+					<input type="text" style='width:20px;' placeholder="Pos"  class='position'>
+					<input type="text"  style='width:140px;' placeholder="Name"  class='name'>
+					<input type="text"  style='width:140px;' placeholder="Custom Text"  class='custom_text'>
+				</div>
+				<div class='player' id='three'>
+					<input type="radio" name="player_radio" class='radio' value="15">
+					<input type="text" style='width:20px;' placeholder="#" class='uniform_number'>
+					<input type="text" style='width:20px;' placeholder="Pos"  class='position'>
+					<input type="text"  style='width:140px;' placeholder="Name"  class='name'>
+					<input type="text"  style='width:140px;' placeholder="Custom Text"  class='custom_text'>
+				</div>
+				<div class='player' id='four'>
+					<input type="radio" name="player_radio" class='radio' value="16">
+					<input type="text" style='width:20px;' placeholder="#" class='uniform_number'>
+					<input type="text" style='width:20px;' placeholder="Pos"  class='position'>
+					<input type="text"  style='width:140px;' placeholder="Name"  class='name'>
+					<input type="text"  style='width:140px;' placeholder="Custom Text"  class='custom_text'>
+				</div>
+				<div class='player' id='five'>
+					<input type="radio" name="player_radio" class='radio' value="17">
+					<input type="text" style='width:20px;' placeholder="#" class='uniform_number'>
+					<input type="text" style='width:20px;' placeholder="Pos"  class='position'>
+					<input type="text"  style='width:140px;' placeholder="Name"  class='name'>
+					<input type="text"  style='width:140px;' placeholder="Custom Text"  class='custom_text'>
+				</div>
+				<div class='player' id='six'>
+					<input type="radio" name="player_radio" class='radio' value="18">
+					<input type="text" style='width:20px;' placeholder="#" class='uniform_number'>
+					<input type="text" style='width:20px;' placeholder="Pos"  class='position'>
+					<input type="text"  style='width:140px;' placeholder="Name"  class='name'>
+					<input type="text"  style='width:140px;' placeholder="Custom Text"  class='custom_text'>
+				</div>
+				<div class='player' id='seven'>
+					<input type="radio" name="player_radio" class='radio' value="19">
+					<input type="text" style='width:20px;' placeholder="#" class='uniform_number'>
+					<input type="text" style='width:20px;' placeholder="Pos"  class='position'>
+					<input type="text"  style='width:140px;' placeholder="Name"  class='name'>
+					<input type="text"  style='width:140px;' placeholder="Custom Text"  class='custom_text'>
+				</div>
+				<div class='player' id='eight'>
+					<input type="radio" name="player_radio" class='radio' value="20">
+					<input type="text" style='width:20px;' placeholder="#" class='uniform_number'>
+					<input type="text" style='width:20px;' placeholder="Pos"  class='position'>
+					<input type="text"  style='width:140px;' placeholder="Name"  class='name'>
+					<input type="text"  style='width:140px;' placeholder="Custom Text"  class='custom_text'>
+				</div>
+				<div class='player' id='nine'>
+					<input type="radio" name="player_radio" class='radio' value="21">
+					<input type="text" style='width:20px;' placeholder="#" class='uniform_number'>
+					<input type="text" style='width:20px;' placeholder="Pos"  class='position'>
+					<input type="text"  style='width:140px;' placeholder="Name"  class='name'>
+					<input type="text"  style='width:140px;' placeholder="Custom Text"  class='custom_text'>
+				</div>
+				<div class='player' id='ten'>
+					<input type="radio" name="player_radio" class='radio' value="22">
+					<input type="text" style='width:20px;' placeholder="#" class='uniform_number'>
+					<input type="text" style='width:20px;' placeholder="Pos"  class='position'>
+					<input type="text"  style='width:140px;' placeholder="Name"  class='name'>
+					<input type="text"  style='width:140px;' placeholder="Custom Text"  class='custom_text'>
+				</div>
+				<div class='player' id='eleven'>
+					<input type="radio" name="player_radio" class='radio' value="23">
+					<input type="text" style='width:20px;' placeholder="#" class='uniform_number'>
+					<input type="text" style='width:20px;' placeholder="Pos"  class='position'>
+					<input type="text"  style='width:140px;' placeholder="Name"  class='name'>
+					<input type="text"  style='width:140px;' placeholder="Custom Text"  class='custom_text'>
+				</div>
+				<div class='player' id='twelve'>
+					<input type="radio" name="player_radio" class='radio' value="24">
+					<input type="text" style='width:20px;' placeholder="#" class='uniform_number'>
+					<input type="text" style='width:20px;' placeholder="Pos"  class='position'>
+					<input type="text"  style='width:140px;' placeholder="Name"  class='name'>
+					<input type="text"  style='width:140px;' placeholder="Custom Text"  class='custom_text'>
+				</div>
+			</div>				
+		</form>
+		
+		<div id='controls' style='float:left;'>
+				<label class="radio inline which_t"><input type="radio" name='which_team' value="away" checked>Away</label>
+				<label class="radio inline which_t"><input type="radio" name='which_team' value="home">Home</label>
+
+				<label class="radio"><input type="radio" name='gfx_type' value="dl_nameplate" checked>Two-Line Nameplate</label>
+				<label class="radio"><input type="radio" name='gfx_type' value="sl_nameplate" >One-Line Nameplate</label>
+				<label class="radio"><input type="radio" name='gfx_type' value="lineup">Lineup</label>
+				<label class="radio"><input type="radio" name='gfx_type' value="dlt">Double Line Text</label>
+				<input type="text" placeholder="Header" id='dlt_head'>
+				</br>
+				<input type="text" placeholder="Subheader" style='margin-bottom:12px !important;' id='dlt_sub'>
+
+				<label class="radio"><input type="radio" name='gfx_type' id="gfx_type" value="slt">Single Line Text</label>
+				<input type="text" placeholder="Text" style='margin-bottom:12px !important;' id='slt_data'>
+				</br>
+				<label class="radio"><input type="radio" name='gfx_type' id="gfx_type" value="bug_radio">Bug Subtext</label>
+				<input type="text" placeholder="Text" style='margin-bottom:12px !important;' id='bug_sub'>
+				<label class="radio"><input type="radio" name='gfx_type' id="gfx_type" value='Clear'>Clear</label>
+				
+				<button class='btn btn-primary' id='update'>Update</button>
+				<button class='btn btn-primary' id='toggle_bug' style='width:90px'>Bug On</button>
+
+		</div>
+		<script>
+			json_data = { 
+				"enableBug":true,
+				"home":"tas",
+				"away":"tas",
+				"homeScore":0,
+				"awayScore":0,
+				"firstBase":false,
+				"secondBase":false,
+				"thirdBase":false,
+				"inningHalf":"top",
+				"inning": 1,
+				"balls": 0,
+				"strikes": 0,
+				"outs":0,
+				"enableOtherGFX":false,
+				"GFX_awayOrHome":"Away",
+				"GFX_nameplateSchool":"tas",
+				"GFX_type":"dl_nameplate",
+				"GFX_data_fieldOne":null,
+				"GFX_data_fieldTwo":null,
+				"GFX_data_fieldThree":null,
+				"GFX_data_fieldFour":null
+			};
+			jQuery(document).ready(function($) {
+				shortcut.add("F9",function() { // Update all shortcut
+					update_graphic();
+				});
+				shortcut.add("b",function() { // increment balls
+					increment_balls();
+				}, {'disable_in_input':true});
+				shortcut.add("s",function() { // increment strikes
+					increment_strikes();
+				}, {'disable_in_input':true});
+				shortcut.add("o",function() { // increment outs
+					increment_outs();
+				}, {'disable_in_input':true});
+				shortcut.add("c",function() { // increment outs
+					clear_bases();
+				}, {'disable_in_input':true});
+				shortcut.add("n",function() { // next half inning
+					next_half_inning();
+				}, {'disable_in_input':true});
+				
+				
+				$("#update").click(function() { update_graphic(); });
+				$("#toggle_bug").click(function() {  // toggle between on bug and off bug
+					if($(this).html() == "Bug On") {
+						$(this).html("Bug Off");
+						$(this).removeClass('btn-primary');
+						$(this).addClass('btn-danger');
+					} else {
+						$(this).html("Bug On");
+						$(this).removeClass('btn-danger');
+						$(this).addClass('btn-primary');
+					}
+					update_graphic();
+				});
+				
+				function update_graphic() { // compile graphic data to json
+					inning_array = ['', '1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th'];
+					json_data.home = $('#two_name').html();
+					json_data.away = $('#one_name').html();
+					json_data.homeScore = $('#team_one_score p').html();
+					json_data.awayScore = $('#team_two_score p').html();
+					json_data.firstBase = $('#1B').is(':visible');
+					json_data.secondBase = $('#2B').is(':visible');
+					json_data.thirdBase = $('#3B').is(':visible');
+					if($('#inning_arrow').hasClass('top_half')) json_data.inningHalf = "top";
+					else json_data.inningHalf = "bottom";
+					json_data.inning = inning_array.indexOf($('#inning_container p').html());
+					json_data.balls = $('#balls').html();
+					json_data.strikes = $('#strikes').html();
+					json_data.outs = $('#out').html();
+					if($('#toggle_bug').html() == "Bug On") json_data.enableBug = true;
+					else json_data.enableBug = false;
+					if($('input[name=gfx_type]:checked').val() == "Clear") json_data.enableOtherGFX = false;
+					else json_data.enableOtherGFX = true;
+					json_data.GFX_type = $('input[name=gfx_type]:checked').val();
+					json_data.GFX_awayOrHome = $('input[name=which_team]:checked').val();
+					if(parseInt($('input[name=player_radio]:checked').val()) <= 12) json_data.GFX_nameplateSchool = json_data.away;
+					else json_data.GFX_nameplateSchool = json_data.home;
+					
+					switch(json_data.GFX_type) { // switch gfx-type to individual fields
+						case "dl_nameplate":
+							json_data.GFX_data_fieldOne = $('input[name=player_radio]:checked').parent().find('.uniform_number').val();
+							json_data.GFX_data_fieldTwo = $('input[name=player_radio]:checked').parent().find('.name').val();
+							json_data.GFX_data_fieldThree = $('input[name=player_radio]:checked').parent().find('.custom_text').val();
+							json_data.GFX_data_fieldFour = null;
+							break;
+						case "sl_nameplate":
+							json_data.GFX_data_fieldOne = $('input[name=player_radio]:checked').parent().find('.uniform_number').val();
+							json_data.GFX_data_fieldTwo = $('input[name=player_radio]:checked').parent().find('.name').val();
+							json_data.GFX_data_fieldThree = null;
+							json_data.GFX_data_fieldFour = null;
+							break;
+						case "lineup":
+							if($('input[name=which_team]:checked').val() == "away") json_data.GFX_data_fieldOne = json_data.away;
+							if($('input[name=which_team]:checked').val() == "home") json_data.GFX_data_fieldOne = json_data.home; 
+							json_data.GFX_data_fieldTwo = null;
+							json_data.GFX_data_fieldThree = null;
+							json_data.GFX_data_fieldFour = null;
+							break;
+						case "dlt":
+							json_data.GFX_data_fieldOne = $("#dlt_head").val(); 
+							json_data.GFX_data_fieldTwo = $("#dlt_sub").val();
+							json_data.GFX_data_fieldThree = null;
+							json_data.GFX_data_fieldFour = null;
+							break;
+						case "slt":
+							json_data.GFX_data_fieldOne = $("#slt_data").val(); 
+							json_data.GFX_data_fieldTwo = null;
+							json_data.GFX_data_fieldThree = null;
+							json_data.GFX_data_fieldFour = null;
+							break;
+						case "bug_radio":
+							json_data.GFX_data_fieldOne = $("#bug_sub").val(); 
+							json_data.GFX_data_fieldTwo = null;
+							json_data.GFX_data_fieldThree = null;
+							json_data.GFX_data_fieldFour = null;
+							break;
+						case "Clear":
+							json_data.GFX_data_fieldOne = null; 
+							json_data.GFX_data_fieldTwo = null;
+							json_data.GFX_data_fieldThree = null;
+							json_data.GFX_data_fieldFour = null;
+							break;
+					}
+					
+					jQuery.post("test.php", {"home":JSON.stringify(json_data)}, function(data){ console.log(data); });
+
+				}
+			});
+		</script>
+		
+    </body>
+</html>

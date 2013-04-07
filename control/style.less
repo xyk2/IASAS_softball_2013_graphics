@@ -1,0 +1,366 @@
+html, body, div, span, applet, object, iframe,h1, h2, h3, h4, h5, h6, p, blockquote, pre,a, abbr, acronym, address, big, cite, code,del, dfn, em, img, ins, kbd, q, s, samp,small, strike, strong, sub, sup, tt, var,b, u, i, center,dl, dt, dd, ol, ul, li,fieldset, form, label, legend,table, caption, tbody, tfoot, thead, tr, th, td,article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary,time, mark, audio, video {	margin: 0;	padding: 0;	border: 0;	font-size: 100%;	font: inherit;	vertical-align: baseline;}
+article, aside, details, figcaption, figure,footer, header, hgroup, menu, nav, section {display: block;}
+body {line-height:1;font-family:Open Sans;}
+
+@results_url: "img/broadcast_graphics_results.png";
+@nameplate_url: "img/broadcast_graphics_nameplate.png";
+@slt_url: "img/broadcast_graphics_slt.png";
+@race_intro_url: "img/broadcast_graphics_race_intro.png";
+@team_scores_url: "img/broadcast_graphics_team_scores.png";
+
+
+@row_height: 34px;
+@school_icon_paddingX: 10px;
+@school_icon_paddingY: 6px;
+@school_name_font_size: 15pt;
+@swimmer_name_font_size: 16pt;
+
+
+@font-face {
+font-family: London2012;
+src: url('static/LONDON_FONT.TTF');
+}
+
+.global_reset {
+	position: absolute;
+	top: 0;
+}
+.global_text_blur {
+	text-shadow: 1px 0px 7px rgba(0, 0, 0, 0.81);
+}
+.global_WxH {
+	width:1024px;
+	height:768px;
+}
+
+.results_start_list_h1_h2 {
+	h1 {
+		.global_reset;
+		font-family: London2012;
+		font-size: 23pt;
+		margin-top: 169px;
+		margin-left: 255px;
+		color: white;
+		text-shadow: 2px 2px 8px black;
+	}
+	h2 {
+		.global_reset;
+		font-family: Open Sans;
+		font-weight:700;
+		font-size: 18pt;
+		margin-top: 209px;
+		margin-left: 245px;
+		color: #6B6B6B;
+	}
+}
+
+.lineup_list {
+	.global_reset;
+	list-style-type: none;
+	margin-top:239px;
+	margin-left:259px;
+	width:603px;
+	font-family: Open Sans;
+	color:#EEE;
+	li {
+		height: @row_height;
+		//border-top:1px solid red;
+		line-height: @row_height;
+	}
+	h3 { /* Uniform Number */
+		.global_text_blur;
+		margin-left: 10px;
+		font-weight:400;
+		font-size: @school_name_font_size;
+		float:left;
+	}
+	h4 { /* Name */
+		.global_text_blur;
+		margin-left: 48px;
+		font-size: @swimmer_name_font_size;
+		font-weight:600;
+		position:absolute;
+	}
+	h5 { /* Extra Info */
+		.global_text_blur;
+		font-size: @swimmer_name_font_size;
+		font-weight:600;
+		float:right;
+		margin-right:15px;
+	}
+}
+
+#lineup {
+	.global_WxH;
+	.results_start_list_h1_h2;
+	background-image:url(@results_url);
+	background-size: 1024px 768px;
+}
+
+
+#single_line_nameplate {
+	.global_WxH;
+	background-image:url(@nameplate_url);
+	background-size: 1024px 768px;
+	color:white;
+	position:absolute;	
+	h3 {
+		position:absolute;	
+		font-size:16pt;
+		margin-top:582px;
+		margin-left:215px;
+		font-weight: 600;
+	}
+	img {
+		position:absolute;
+		margin-left: 227px;
+		margin-top:580px;
+		font-weight:600;
+	}
+	h2 {
+		position:absolute;
+		font-size:17pt;
+		margin-top:581px;
+		margin-left: 258px;
+		color:#EEEEEE;
+		font-weight:600;
+	}
+	h1 {
+		position:absolute;
+		font-family:London2012;
+		font-weight:normal;
+		font-size:20pt;
+		margin-top:580px;
+		margin-left: 340px;
+		text-shadow: 2px 2px 7px rgba(0, 0, 0, 0.81);
+	}
+}
+
+#single_line_text {
+	.global_WxH;
+	background-image:url(@slt_url);
+	background-size: 1024px 768px;
+	color:white;
+	position:absolute;	
+	h1 {
+		font-family:London2012;
+		font-weight:normal;
+		font-size:20pt;
+		margin-top:9px;
+		text-shadow: 2px 2px 7px rgba(0, 0, 0, 0.81);
+	}
+	div {
+		width: 600px;
+		text-align:center;
+		height: 41px;
+		position: absolute;
+		margin-top: 572px;
+		margin-left: 211px;
+	}
+}
+
+
+
+#two_line_nameplate {
+	.global_WxH;
+	background-image:url(@race_intro_url);
+	background-size: 1024px 768px;
+	color:white;
+	position:absolute;	
+	@margin-top_offset: 23px;
+	@margin-left_offset: 15px;
+	h1 {
+		.global_reset;
+		font-family: London2012;
+		font-size: 23pt;
+		margin-top: 526px+@margin-top_offset;
+		margin-left: 255px+@margin-left_offset;
+		color: white;
+		text-shadow: 2px 2px 8px black;
+	}
+	h2 {
+		.global_reset;
+		font-family: Open Sans;
+		font-weight:700;
+		font-size: 18pt;
+		margin-top: 565px+@margin-top_offset;
+		margin-left: 245px+@margin-left_offset;
+		color: #6B6B6B;
+	}
+	
+}
+
+
+.tas {
+	background:url(static/tas_100px.png) no-repeat;
+	background-position:@school_icon_paddingX @school_icon_paddingY;
+	background-size: 25px 25px;
+}
+.sas {
+	background:url(static/sas_100px.png) no-repeat;
+	background-position:@school_icon_paddingX @school_icon_paddingY;
+	background-size: 25px 25px;
+}
+.isb {
+	background:url(static/isb_100px.png) no-repeat;
+	background-position:@school_icon_paddingX @school_icon_paddingY;
+	background-size: 25px 25px;
+}
+.ism {
+	background:url(static/ism_100px.png) no-repeat;
+	background-position:@school_icon_paddingX @school_icon_paddingY;
+	background-size: 25px 25px;
+}
+.iskl {
+	background:url(static/iskl_100px.png) no-repeat;
+	background-position:@school_icon_paddingX @school_icon_paddingY;
+	background-size: 25px 25px;
+}
+.jis {
+	background:url(static/jis_100px.png) no-repeat;
+	background-position:@school_icon_paddingX @school_icon_paddingY;
+	background-size: 25px 25px;
+}
+
+
+
+
+
+
+
+@font-face {
+  font-family: 'Eurostile Bold';
+  src: url('./Eurostile_Bold.woff') format('woff');
+  src: url('./Eurostile_Bold.ttf') format('truetype');
+}
+
+.team_name_container {
+	position: absolute;width: 234px;height: 73px;margin-left: 187px;
+}
+
+.team_score_container {
+	position: absolute;width: 86px;height: 73px;margin-left: 420px;
+	text-align:center;
+}
+
+#team_one_name {
+	margin-top: 5px;
+}
+#team_one_score {
+	margin-top: 5px;
+}
+
+.team_score_container p {
+	font-family: Eurostile Bold;
+	font-size: 60px;
+	line-height:73px;
+}
+
+.decrement {
+	height:100%;
+	width:25%;
+	float:left;
+	position:absolute;
+	top:0;
+}
+.increment {
+	height:100%;
+	width:75%;
+	margin-left: 25%;
+	position:absolute;
+	top:0;
+}
+
+#team_two_name {
+	margin-top: 83px;
+}
+#team_two_score {
+	margin-top: 83px;
+}
+
+.name_text {
+	font-family: Eurostile Bold;
+	color: white;
+	font-size: 60px;
+	margin: 5px;
+	float: left;
+	margin-top: 7px;	
+}
+
+
+#bases_container {
+	margin-left: 506px;
+}
+#bases_container img {
+	width:35px;
+	position:absolute;
+}
+
+.base_click {
+	position:absolute;
+	width:60px;
+	height:60px;
+}
+
+#inning_container {
+	margin-left: 750px;
+	width: 244px;
+    height: 78px;
+    line-height: 78px;
+}
+
+#inning_container img {
+	width: 50px;
+    margin-top: 22px;
+    float: left;
+
+}
+
+#inning_container p {
+	color: white;
+    font-family: Eurostile Bold;
+    position: absolute;
+    font-size: 61px;
+    margin-left: 89px;
+}
+
+.top_half {
+	-webkit-transform: rotate(180deg);
+}
+
+#decrement_inning {
+width: 50px;
+height: 50%;
+float: right;
+margin-top: 39px;
+}
+
+#increment_inning {
+width: 50px;
+height: 50%;
+float: right;
+margin-right: -50px;
+}
+	
+#outs_container {
+	margin-left: 807px;
+    width: 189px;
+    height: 80px;
+    line-height: 80px;
+    text-align: center;
+    font-size: 55px;
+    color: white;font-family: Eurostile Bold;
+}
+
+#count_container {
+margin-left: 682px;
+width: 123px;
+height: 80px;
+line-height: 80px;
+text-align: center;
+font-size: 55px;
+color: white;
+font-family: Eurostile Bold;
+position: absolute;
+margin-top: -79px;
+}

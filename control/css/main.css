@@ -1,0 +1,161 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700);
+
+@font-face {
+  font-family: 'Eurostile Bold';
+  src: url('../Eurostile_Bold.woff') format('woff');
+  src: url('../Eurostile_Bold.ttf') format('truetype');
+}
+
+.team_name_container {
+	position: absolute;width: 234px;height: 73px;margin-left: 187px;
+}
+
+.team_score_container {
+	position: absolute;width: 86px;height: 73px;margin-left: 420px;
+	text-align:center;
+}
+
+#team_one_name {
+	margin-top: 5px;
+}
+#team_one_score {
+	margin-top: 5px;
+}
+
+.team_score_container p {
+	font-family: Eurostile Bold;
+	font-size: 60px;
+	line-height:73px;
+}
+
+.decrement {
+	height:100%;
+	width:25%;
+	float:left;
+	position:absolute;
+	top:0;
+}
+.increment {
+	height:100%;
+	width:75%;
+	margin-left: 25%;
+	position:absolute;
+	top:0;
+}
+
+#team_two_name {
+	margin-top: 83px;
+}
+#team_two_score {
+	margin-top: 83px;
+}
+
+.name_text {
+	font-family: Eurostile Bold;
+	color: white;
+	font-size: 60px;
+	margin: 5px;
+	float: left;
+	margin-top: 25px;	
+}
+
+
+#bases_container {
+	margin-left: 506px;
+}
+#bases_container img {
+	width:35px;
+	position:absolute;
+}
+
+.base_click {
+	position:absolute;
+	width:60px;
+	height:60px;
+}
+
+#inning_container {
+	margin-left: 750px;
+	width: 244px;
+    height: 78px;
+    line-height: 78px;
+}
+
+#inning_container img {
+	width: 50px;
+    margin-top: 22px;
+    float: left;
+
+}
+
+#inning_container p {
+	color: white;
+    font-family: Eurostile Bold;
+    position: absolute;
+    font-size: 61px;
+    margin-left: 89px;
+}
+
+.top_half {
+	-webkit-transform: rotate(180deg);
+}
+
+#decrement_inning {
+width: 50px;
+height: 50%;
+float: right;
+margin-top: 39px;
+}
+
+#increment_inning {
+width: 50px;
+height: 50%;
+float: right;
+margin-right: -50px;
+}
+	
+#outs_container {
+	margin-left: 807px;
+    width: 189px;
+    height: 80px;
+    line-height: 80px;
+    text-align: center;
+    font-size: 55px;
+    color: white;font-family: Eurostile Bold;
+}
+
+#count_container {
+margin-left: 682px;
+width: 123px;
+height: 80px;
+line-height: 80px;
+text-align: center;
+font-size: 55px;
+color: white;
+font-family: Eurostile Bold;
+position: absolute;
+margin-top: -79px;
+}
+
+.radio {
+	margin-top:-9px !important;
+	margin-right:5px !important;
+}
+
+input[type='text'] {
+	margin-bottom:3px !important;
+}
+
+#controls .radio {
+	margin-top:5px !important;
+}
+
+input[name='which_team'] {
+	margin-bottom:15px !important;
+}
+
+.which_t {
+	font-size:20px !important;
+	font-weight:bold !important;
+	
+}

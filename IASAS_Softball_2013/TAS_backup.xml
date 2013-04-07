@@ -1,0 +1,18 @@
+<TAS>
+	<batter>
+		<name></name>
+		<position></position>
+		<number></number>
+		<AB></AB>
+		<hits></hits>
+		<runs></runs>
+		<RBI></RBI>
+		<singles></singles>
+		<doubles></doubles>
+		<triples></triples>
+		<homeruns></homeruns>
+		<walks></walks>
+		<strikeouts></strikeouts>
+	</batter>
+
+</TAS>

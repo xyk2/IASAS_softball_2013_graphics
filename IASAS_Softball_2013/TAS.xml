@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<TAS>
+	<batter number='1'>
+		<name>Buster P.</name>
+		<position>C</position>
+		<number>28</number>
+		<AB>100</AB>
+		<hits>22</hits>
+		<runs>1</runs>
+		<RBI>64</RBI>
+		<singles>45</singles>
+		<doubles>10</doubles>
+		<triples>3</triples>
+		<homeruns>1</homeruns>
+		<walks>9</walks>
+		<strikeouts>0</strikeouts>
+	</batter>
+	<batter number='2'>
+		<name>Pablo S.</name>
+		<position>3B</position>
+		<number>12</number>
+		<AB>100</AB>
+		<hits>22</hits>
+		<runs>1</runs>
+		<RBI>64</RBI>
+		<singles>45</singles>
+		<doubles>10</doubles>
+		<triples>3</triples>
+		<homeruns>1</homeruns>
+		<walks>9</walks>
+		<strikeouts>0</strikeouts>
+	</batter>
+	<batter number='3'>
+		<name>Matt C.</name>
+		<position>P</position>
+		<number>28</number>
+		<AB>100</AB>
+		<hits>22</hits>
+		<runs>1</runs>
+		<RBI>64</RBI>
+		<singles>45</singles>
+		<doubles>10</doubles>
+		<triples>3</triples>
+		<homeruns>1</homeruns>
+		<walks>9</walks>
+		<strikeouts>0</strikeouts>
+	</batter>
+	<batter number='4'>
+		<name>Hunter P.</name>
+		<position>RF</position>
+		<number>8</number>
+		<AB>100</AB>
+		<hits>22</hits>
+		<runs>1</runs>
+		<RBI>64</RBI>
+		<singles>45</singles>
+		<doubles>10</doubles>
+		<triples>3</triples>
+		<homeruns>1</homeruns>
+		<walks>9</walks>
+		<strikeouts>0</strikeouts>
+	</batter>
+	<batter number='5'>
+		<name>Joaquin A.</name>
+		<position>SS</position>
+		<number>13</number>
+		<AB>100</AB>
+		<hits>22</hits>
+		<runs>1</runs>
+		<RBI>64</RBI>
+		<singles>45</singles>
+		<doubles>10</doubles>
+		<triples>3</triples>
+		<homeruns>1</homeruns>
+		<walks>9</walks>
+		<strikeouts>0</strikeouts>
+	</batter>
+</TAS>
