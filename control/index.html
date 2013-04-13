@@ -13,6 +13,43 @@
 		<script src="js/jquery.formalize.min.js"></script>
 		<script src="js/shortcut.js"></script>
 		<script>
+			function change_school_color(school_name, away_or_home) { // 0 - away, 1-home
+				if(away_or_home == 0) base_select = '#team_one_name';
+				else base_select = '#team_two_name';
+				switch(school_name.toUpperCase()) {
+					case "SAS":	
+						$(base_select).css('background-color', 'rgb(120,0,32)');
+						$(base_select + ' img').attr('src', 'img/sas_100px.png');
+						$(base_select + ' p').html('SAS');
+						break;
+					case "ISB":	
+						$(base_select).css('background-color', 'rgb(92, 92, 92)');
+						$(base_select + ' img').attr('src', 'img/isb_100px.png');
+						$(base_select + ' p').html('ISB');
+						break;
+					case "ISM":	
+						$(base_select).css('background-color', 'rgb(15, 95, 8)');
+						$(base_select + ' img').attr('src', 'img/ism_100px.png');
+						$(base_select + ' p').html('ISM');
+						break;
+					case "ISKL":	
+						$(base_select).css('background-color', 'rgb(179, 157, 0)');
+						$(base_select + ' img').attr('src', 'img/iskl_100px.png');
+						$(base_select + ' p').html('ISKL');
+						break;
+					case "JIS":	
+						$(base_select).css('background-color', 'rgb(0, 77, 148)');
+						$(base_select + ' img').attr('src', 'img/jis_100px.png');
+						$(base_select + ' p').html('JIS');
+						break;
+					case "TAS":	
+						$(base_select).css('background-color', 'rgb(0, 53, 146)');
+						$(base_select + ' img').attr('src', 'img/tas_100px.png');
+						$(base_select + ' p').html('TAS');
+						break;
+				}
+			}
+			
 			function increment_school_name(index, away_or_home) { // 0 - away, 1-home
 				if(away_or_home == 0) base_select = '#team_one_name';
 				else base_select = '#team_two_name';
@@ -105,6 +142,46 @@
 					increment_inning();
 				}
 			}
+			function import_from_json(json) { // import from last session
+				inning_array = ['', '1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th'];
+				change_school_color(json.home, 1);
+				change_school_color(json.away, 0);
+				$('#team_one_score p').html(json.homeScore);
+				$('#team_two_score p').html(json.awayScore);
+				if(json.firstBase) $('#1B').show();
+				else $('#1B').hide();
+				if(json.secondBase) $('#2B').show();
+				else $('#2B').hide();
+				if(json.thirdBase) $('#3B').show();
+				else $('#3B').hide();
+				if(json.inningHalf == 'top') $("#inning_arrow").addClass('top_half');
+				else $("#inning_arrow").removeClass('top_half');
+				$("#inning_container p").html(inning_array[json.inning]);
+				$('#out').html(json.outs);
+				$('#balls').html(json.balls);
+				$('#strikes').html(json.strikes);
+				console.log(json.away);
+				import_name_by_school(json.away.toLowerCase(), "#away_team");
+				import_name_by_school(json.home.toLowerCase(), "#home_team");
+				
+				switch(json.away.toLowerCase()) {
+					case "sas": $("#away_team select").val('Singapore American School'); break;
+					case "tas": $("#away_team select").val('Taipei American School'); break;
+					case "isb": $("#away_team select").val('International School of Bangkok'); break;
+					case "ism": $("#away_team select").val('International School of Manila'); break;
+					case "iskl": $("#away_team select").val('International School of Kuala Lumpur'); break;
+					case "jis": $("#away_team select").val('Jakarta International School'); break;
+				}				
+				switch(json.home.toLowerCase()) {
+					case "sas": $("#home_team select").val('Singapore American School'); break;
+					case "tas": $("#home_team select").val('Taipei American School'); break;
+					case "isb": $("#home_team select").val('International School of Bangkok'); break;
+					case "ism": $("#home_team select").val('International School of Manila'); break;
+					case "iskl": $("#home_team select").val('International School of Kuala Lumpur'); break;
+					case "jis": $("#home_team select").val('Jakarta International School'); break;
+				}
+				$("._statusDDL").val('2');
+			}
 			jQuery(document).ready(function($) {
 				$("#team_one_name").click(function() {
 					increment_school_name($('#team_one_name').data("index"), 0);
@@ -129,7 +206,6 @@
 					else $(this).addClass('top_half');
 				});		
 				
-				
 				$("#decrement_inning").click(function() { 
 					decrement_inning();
 				});		
@@ -147,7 +223,11 @@
 				$("#strikes").click(function() { 
 					increment_strikes();
 				});
-									
+				
+				$.ajaxSetup({async: false});					
+				$.getJSON('graphics.json', function(json) {
+					import_from_json(json);
+				});				
 			});
 
 		
@@ -207,10 +287,6 @@
 		</div>
 		
 		<script>
-			jQuery(document).ready(function($) {
-				import_name_by_school('tas', '#home_team');
-				import_name_by_school('tas', '#away_team');
-
 				function import_name_by_school(three_letter_school, away_or_home) { // import .json roster file
 					temp = 'rosters/' + three_letter_school + '.json';
 					temp_name = away_or_home + ' .player .name';
@@ -228,8 +304,8 @@
 							$(this).val(json[index].position);
 						});
 					});
-				
-				}
+			}
+			jQuery(document).ready(function($) {
 				$('#away_team select').change(function() {
 					chosen_school = $(this).find(":selected").text();
 					array = ["Singapore American School", "International School of Bangkok", "International School of Manila", "International School of Kuala Lumpur", "Jarkarta International School", "Taipei American School"]
@@ -476,10 +552,10 @@
 		</form>
 		
 		<div id='controls' style='float:left;'>
-				<label class="radio inline which_t"><input type="radio" name='which_team' value="away" checked>Away</label>
+				<label class="radio inline which_t"><input type="radio" name='which_team' value="away">Away</label>
 				<label class="radio inline which_t"><input type="radio" name='which_team' value="home">Home</label>
 
-				<label class="radio"><input type="radio" name='gfx_type' value="dl_nameplate" checked>Two-Line Nameplate</label>
+				<label class="radio"><input type="radio" name='gfx_type' value="dl_nameplate">Two-Line Nameplate</label>
 				<label class="radio"><input type="radio" name='gfx_type' value="sl_nameplate" >One-Line Nameplate</label>
 				<label class="radio"><input type="radio" name='gfx_type' value="lineup">Lineup</label>
 				<label class="radio"><input type="radio" name='gfx_type' value="dlt">Double Line Text</label>
@@ -490,11 +566,13 @@
 				<label class="radio"><input type="radio" name='gfx_type' id="gfx_type" value="slt">Single Line Text</label>
 				<input type="text" placeholder="Text" style='margin-bottom:12px !important;' id='slt_data'>
 				</br>
-				<label class="radio"><input type="radio" name='gfx_type' id="gfx_type" value="bug_radio">Bug Subtext</label>
-				<input type="text" placeholder="Text" style='margin-bottom:12px !important;' id='bug_sub'>
-				<label class="radio"><input type="radio" name='gfx_type' id="gfx_type" value='Clear'>Clear</label>
+				<label class="radio" style='float:left'><input type="radio" name='gfx_type' id="gfx_type" value="bug_radio">Bug Subtext</label>
+				<input type="text" id='num_of_seconds' placeholder="# of seconds" style='width:95px;margin-left:10px;'>
+				</br>
+				<textarea  id='bug_sub' rows="2"></textarea>
+				<label class="radio"><input type="radio" name='gfx_type' id="gfx_type" value='Clear' checked>Clear</label>
 				
-				<button class='btn btn-primary' id='update'>Update</button>
+				<button class='btn btn-primary' id='update'>Update (F9)</button>
 				<button class='btn btn-primary' id='toggle_bug' style='width:90px'>Bug On</button>
 
 		</div>
@@ -540,6 +618,15 @@
 				}, {'disable_in_input':true});
 				shortcut.add("n",function() { // next half inning
 					next_half_inning();
+				}, {'disable_in_input':true});
+				shortcut.add("1",function() { // 1B
+					$('#1B').toggle();
+				}, {'disable_in_input':true});
+				shortcut.add("2",function() { // 2B
+					$('#2B').toggle();
+				}, {'disable_in_input':true});
+				shortcut.add("3",function() { // 3B
+					$('#3B').toggle();
 				}, {'disable_in_input':true});
 				
 				
@@ -615,7 +702,7 @@
 							break;
 						case "bug_radio":
 							json_data.GFX_data_fieldOne = $("#bug_sub").val(); 
-							json_data.GFX_data_fieldTwo = null;
+							json_data.GFX_data_fieldTwo = parseFloat($("#num_of_seconds").val())*1000;
 							json_data.GFX_data_fieldThree = null;
 							json_data.GFX_data_fieldFour = null;
 							break;
